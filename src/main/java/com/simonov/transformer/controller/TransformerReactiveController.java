@@ -34,10 +34,10 @@ public class TransformerReactiveController
     {
         System.err.println("--> ReactiveController # Spy transformer by id handled, id: " + id);
 
-        Mono<Transformer> samuraiMono = byId(id);
+        Mono<Transformer> transformerMono = byId(id);
 
         return Flux
-                .<String>generate(sink -> sink.next(LocalTime.now() + ": " + samuraiMono.block().doSomething()))
+                .<String>generate(sink -> sink.next(LocalTime.now() + ": " + transformerMono.block().doSomething()))
                 .delayElements(Duration.ofSeconds(1));
     }
 

@@ -39,22 +39,22 @@ public class ControllerTests
     }
 
     @Test
-    public void getSamurai() throws Exception
+    public void getTransformer() throws Exception
     {
-        final long id = 2;
-        final String name = "Udzuki";
+        final long id = 1;
+        final String name = "BB";
 
         doReturn(Mono.fromSupplier(()
                 -> TransformerGenerator.generateTransformerWithIdAndName(id, name)))
                 .when(this.repository).get(id);
 
-        this.mockMvc.perform(get("/rest/samurai/" + id).accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/rest/transformer/" + id).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .string("{\"id\":" + id
                                 + ",\"name\":\"" + name
-                                + "\",\"age\":8,\"activity\":[{\"name\":\"Jump\"},{\"name\":\"Kill\"},{\"name\":\"Meditate\"}]}"));
+                                + "\",\"age\":5000,\"activity\":[{\"name\":\"Say\"},{\"name\":\"Kill\"},{\"name\":\"Transform\"}]}"));
     }
 
 }

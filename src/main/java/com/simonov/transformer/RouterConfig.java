@@ -24,7 +24,7 @@ public class RouterConfig
                 .route(GET("/transformer"), handler::list)
                 .filter(filterEvery3rdRequest())
                 .andRoute(GET("/transformer/{id}"), handler::get)
-                .andRoute(POST("/transformer"), handler::createSamurai);
+                .andRoute(POST("/transformer"), handler::createTransformer);
     }
 
     @Bean

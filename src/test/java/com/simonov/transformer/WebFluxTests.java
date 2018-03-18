@@ -34,10 +34,10 @@ public class WebFluxTests
     }
 
     @Test
-    public void getSamurai() throws Exception
+    public void getTransformer() throws Exception
     {
-        final long id = 2;
-        final String name = "Udzuki";
+        final long id = 1;
+        final String name = "BB";
 
         Transformer actualTransformer = TransformerGenerator.generateTransformerWithIdAndName(id, name);
 
@@ -46,7 +46,7 @@ public class WebFluxTests
                 .when(this.repository).get(id);
 
         this.webClient.get()
-                .uri("/samurai/" + id)
+                .uri("/transformer/" + id)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()

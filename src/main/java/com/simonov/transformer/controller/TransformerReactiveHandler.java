@@ -26,11 +26,11 @@ public class TransformerReactiveHandler
         Mono<Transformer> samuraiMono = this.repository.get(id);
 
         return samuraiMono
-                .flatMap(this::packSamurai)
+                .flatMap(this::packTransformer)
                 .switchIfEmpty(notFound);
     }
 
-    private Mono<ServerResponse> packSamurai(Transformer transformer)
+    private Mono<ServerResponse> packTransformer(Transformer transformer)
     {
         return ServerResponse
                 .ok()
@@ -38,24 +38,24 @@ public class TransformerReactiveHandler
                 .body(BodyInserters.fromObject(transformer));
     }
 
-    public Mono<ServerResponse> createSamurai(ServerRequest request)
+    public Mono<ServerResponse> createTransformer(ServerRequest request)
     {
         System.err.println("--> Create transformer handled");
-        Mono<Transformer> samuraiMono = request.bodyToMono(Transformer.class);
+        Mono<Transformer> robotMono = request.bodyToMono(Transformer.class);
 
         return ServerResponse.ok()
-                .build(this.repository.save(samuraiMono));
+                .build(this.repository.save(robotMono));
     }
 
     public Mono<ServerResponse> list(ServerRequest request)
     {
         System.err.println("--> Get all transformer handled");
 
-        Flux<Transformer> samuraiFlux = this.repository.all();
+        Flux<Transformer> transformerFlux = this.repository.all();
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(samuraiFlux, Transformer.class);
+                .body(transformerFlux, Transformer.class);
     }
 
     public Mono<ServerResponse> activityList(ServerRequest request)

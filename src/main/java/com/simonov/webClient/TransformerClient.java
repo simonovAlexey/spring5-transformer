@@ -31,23 +31,23 @@ public class TransformerClient
     @Bean
     CommandLineRunner demo(WebClient client)
     {
-        return getSamuraiList(client);
+//        return getTransformerList(client);
 
-//        return addGeneratedTransformer(client);
+        return addGeneratedTransformer(client);
 
-//        return addActivitySamuraiById(client, 1);
+//        return addActivityTransformerById(client, 1);
     }
 
-    private CommandLineRunner addActivitySamuraiById(WebClient client, long samuraiId)
+    private CommandLineRunner addActivityTransformerById(WebClient client, long samuraiId)
     {
         return strings -> client
                 .get()
-                .uri("/samurai/{id}", samuraiId)
+                .uri("/transformer/{id}", samuraiId)
                 .retrieve()
                 .bodyToMono(Transformer.class)
                 .flatMap(samurai -> client
                         .post()
-                        .uri("/samurai/{id}/activity", samuraiId)
+                        .uri("/transformer/{id}/activity", samuraiId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .syncBody(new Activity("hara-kiri"))
                         .retrieve()
@@ -57,11 +57,11 @@ public class TransformerClient
     }
 
 
-    private CommandLineRunner getSamuraiList(WebClient client)
+    private CommandLineRunner getTransformerList(WebClient client)
     {
         return strings -> client
                 .get()
-                .uri("/samurai")
+                .uri("/transformer")
                 .retrieve()
                 .bodyToFlux(Transformer.class)
                 .subscribe(System.err::println); //for red text in console
