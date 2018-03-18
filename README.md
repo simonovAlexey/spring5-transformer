@@ -10,7 +10,7 @@ It consists of the following types:
 | `TransformerReactiveHandler`         | Web handler that exposes a `TransformerRepository` |
 | `TransformerReactiveController`         | Reactive REST Controller |
 | `TransformerRestController`         | "Classic" REST Controller |
-| `Server`                | Contains a `main` method to start the server  |
+| `Application`                | Contains a `main` method to start the server  |
 | `TransformerClient`                | Contains a `main` method to start the client (check starting port!)  |
 
 ### Running the Server
