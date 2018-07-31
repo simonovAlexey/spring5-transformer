@@ -13,8 +13,8 @@ public class Action
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Action->");
-        sb.append("{ ").append(name).append(" }");
+        final StringBuilder sb = new StringBuilder("\"action\":\"");
+        sb.append(name).append("\" }");
         return sb.toString();
     }
 }

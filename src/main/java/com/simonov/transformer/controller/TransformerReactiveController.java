@@ -37,7 +37,7 @@ public class TransformerReactiveController
         Mono<Transformer> transformerMono = byId(id);
 
         return Flux
-                .<String>generate(sink -> sink.next(LocalTime.now() + ": " + transformerMono.block().doSomething()))
+                .<String>generate(sink -> sink.next("{\"time\":\""+ LocalTime.now() + "\", " + transformerMono.block().doSomething()))
                 .delayElements(Duration.ofSeconds(1));
     }
 

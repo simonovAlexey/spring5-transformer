@@ -38,16 +38,16 @@ public class TransformerClient
 //        return addActivityTransformerById(client, 1);
     }
 
-    private CommandLineRunner addActivityTransformerById(WebClient client, long samuraiId)
+    private CommandLineRunner addActivityTransformerById(WebClient client, long transformerId)
     {
         return strings -> client
                 .get()
-                .uri("/transformer/{id}", samuraiId)
+                .uri("/transformer/{id}", transformerId)
                 .retrieve()
                 .bodyToMono(Transformer.class)
-                .flatMap(samurai -> client
+                .flatMap(transformer -> client
                         .post()
-                        .uri("/transformer/{id}/activity", samuraiId)
+                        .uri("/transformer/{id}/activity", transformerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .syncBody(new Activity("hara-kiri"))
                         .retrieve()

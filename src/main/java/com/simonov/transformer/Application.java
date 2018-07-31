@@ -36,7 +36,7 @@ public class Application
     }
 
     @Bean
-    TransformerReactiveHandler getSamuraiHandler()
+    TransformerReactiveHandler getTransformerHandler()
     {
         return new TransformerReactiveHandler();
     }

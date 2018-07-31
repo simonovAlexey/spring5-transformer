@@ -47,21 +47,21 @@ public class MapBasedTransformerRepository implements TransformerRepository
     }
 
     @Override
-    public Mono<Void> removeActivity(long samuraiId, String activity)
+    public Mono<Void> removeActivity(long transformerId, String activity)
     {
-        return get(samuraiId)
+        return get(transformerId)
                 .doOnNext(s -> s.getActivity().removeIf(a -> activity.equals(a.getName())))
                 .thenEmpty(Mono.empty());
     }
 
     @Override
-    public Mono<Void> save(Mono<Transformer> samurai)
+    public Mono<Void> save(Mono<Transformer> transformerMono)
     {
-        return samurai.doOnNext(this::storeSamurai)
+        return transformerMono.doOnNext(this::storeTransformer)
                 .thenEmpty(Mono.empty());
     }
 
-    private void storeSamurai(Transformer transformer)
+    private void storeTransformer(Transformer transformer)
     {
         transformer.setId(repository.size() + 1);
         repository.put(transformer.getId(), transformer);

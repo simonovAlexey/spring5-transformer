@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-spring-sse</title>
+</head>
+<body>
+<h3>This page TEXT EVENT STREAM -> transformer actions:</h3>
+<textarea style="background-color: white; border: none; font-size:1.0em; resize:none;"
+          id="textarea" rows="15" cols="110">
+    ---------------------------
+    </textarea>
+<div>
+    <ul id="messages"></ul>
+</div>
+<script type="application/javascript">
+    if (!!window.EventSource) {
+        var eventSource = new EventSource("/reactive/transformer/1/spy");
+        var elements = document.getElementById("messages");
+        var textarea = document.getElementById("textarea");
+
+        function addToTextarea(message) {
+            textarea.innerText = textarea.value+message.time +" - "+message.action +" \n";
+            textarea.scrollTop = textarea.scrollHeight;
+        }
+
+        function addToUl(message) {
+            let element = document.createElement("li");
+            element.innerHTML = message;
+            elements.appendChild(element);
+        }
+        eventSource.onmessage = function (e) {
+            console.log(e);
+            let message = JSON.parse(e.data);
+            // addToUl(message.action);
+            addToTextarea(message);
+        };
+        eventSource.onopen = function (e) {
+            addToUl('connection was opened');
+        };
+        eventSource.onerror = function (e) {
+            if (e.readyState == EventSource.CONNECTING) {
+                addToUl('event: CONNECTING');
+            } else if (e.readyState == EventSource.OPEN) {
+                addToUl('event: OPEN');
+            } else if (e.readyState == EventSource.CLOSING) {
+                addToUl('event: CLOSING');
+            } else if (e.readyState == EventSource.CLOSED) {
+                addToUl('event: CLOSED');
+            }
+        };
+    } else {
+        alert('The browser does not support Server-Sent Events');
+    }
+</script>
+</body>
+</html>

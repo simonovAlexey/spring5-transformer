@@ -11,11 +11,11 @@ public interface TransformerRepository
 
     Flux<Transformer> all();
 
-    Mono<Void> save(Mono<Transformer> samurai);
+    Mono<Void> save(Mono<Transformer> transformer);
 
     Flux<Activity> getAllActivities(long id);
 
     Mono<Void> addActivity(long id, Mono<Activity> activity);
 
-    Mono<Void> removeActivity(long samuraiId, String activity);
+    Mono<Void> removeActivity(long transformerId, String activity);
 }
