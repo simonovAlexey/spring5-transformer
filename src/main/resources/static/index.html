@@ -6,51 +6,88 @@
 </head>
 <body>
 <h3>This page TEXT EVENT STREAM -> transformer actions:</h3>
+<div style="display: inline-block">
 <textarea style="background-color: white; border: none; font-size:1.0em; resize:none;"
-          id="textarea" rows="15" cols="110">---------------------------
+          id="textarea" rows="15" cols="110">---Stream1---
 </textarea>
 <div>
     <ul id="messages"></ul>
 </div>
+</div>
+<div style="display: inline-block">
+<textarea style="background-color: white; border: none; font-size:1.0em; resize:none;"
+        id="textarea2" rows="15" cols="110">---Stream2---
+</textarea>
+    <div>
+        <ul id="messages2"></ul>
+    </div>
+</div>
 <script type="application/javascript">
     if (window.EventSource) {
-        var eventSource = new EventSource("/reactive/transformer/1/spy");
-        var elements = document.getElementById("messages");
-        var textarea = document.getElementById("textarea");
+        var eventSource1 = new EventSource("/reactive/transformer/1/spy");
+        var eventSource2 = new EventSource("/reactive/transformer/sse/infinite");
+        var elements1 = document.getElementById("messages");
+        var elements2 = document.getElementById("messages2");
+        var textarea1 = document.getElementById("textarea");
+        var textarea12 = document.getElementById("textarea2");
 
-        function addToTextarea(message) {
+        function addToTextarea(message, textarea) {
             textarea.innerText = textarea.value+message.time +" - "+message.action +" \n";
             textarea.scrollTop = textarea.scrollHeight;
         }
 
-        function addToUl(message) {
+        function addToUl(message, ul) {
             let element = document.createElement("li");
             element.innerHTML = message;
-            elements.appendChild(element);
+            ul.appendChild(element);
         }
-        eventSource.onmessage = function (e) {
+
+        eventSource1.onmessage = function (e) {
             // console.log(e);
             let message = JSON.parse(e.data);
             // addToUl(message.action);
-            addToTextarea(message);
+            addToTextarea(message,textarea1);
         };
-        eventSource.onopen = function (e) {
-            addToUl('connection was opened');
+        eventSource1.onopen = function (e) {
+            addToUl('connection was opened',elements1);
         };
-        eventSource.onerror = function (e) {
+        eventSource1.onerror = function (e) {
             if (e.readyState === EventSource.CONNECTING) {
-                addToUl('event: CONNECTING');
+                addToUl('event: CONNECTING',elements1);
             } else if (e.readyState === EventSource.OPEN) {
-                addToUl('event: OPEN');
+                addToUl('event: OPEN',elements1);
             } else if (e.readyState === EventSource.CLOSING) {
-                addToUl('event: CLOSING');
-                eventSource.close();
-                console.log("Event Source Closed");
+                addToUl('event: CLOSING',elements1);
+                eventSource1.close();
+                console.log("Event Source1 Closed",elements1);
             } else if (e.readyState === EventSource.CLOSED) {
-                addToUl('event: CLOSED');
-
+                addToUl('event: CLOSED',elements1);
             }
         };
+
+        eventSource2.onmessage = function (e) {
+            // console.log(e);
+            let message = JSON.parse(e.data);
+            // addToUl(message.action);
+            addToTextarea(message,textarea2);
+        };
+        eventSource2.onopen = function (e) {
+            addToUl('connection was opened',elements2);
+        };
+        eventSource2.onerror = function (e) {
+            if (e.readyState === EventSource.CONNECTING) {
+                addToUl('event: CONNECTING',elements2);
+            } else if (e.readyState === EventSource.OPEN) {
+                addToUl('event: OPEN',elements2);
+            } else if (e.readyState === EventSource.CLOSING) {
+                addToUl('event: CLOSING',elements2);
+                eventSource2.close();
+                console.log("Event Source2 Closed",elements2);
+            } else if (e.readyState === EventSource.CLOSED) {
+                addToUl('event: CLOSED',elements2);
+            }
+        };
+
     } else {
         alert('The browser does not support Server-Sent Events');
     }

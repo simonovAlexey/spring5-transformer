@@ -23,6 +23,7 @@ import reactor.core.publisher.Mono;
 @ComponentScan
 @SpringBootApplication
 @EnableWebFlux
+@ComponentScan(basePackages = "com.simonov.transformer")
 public class Application
 {
 
