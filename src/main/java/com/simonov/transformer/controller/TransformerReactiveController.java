@@ -2,6 +2,7 @@ package com.simonov.transformer.controller;
 
 import com.simonov.transformer.data.Transformer;
 import com.simonov.transformer.storage.TransformerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.time.LocalTime;
 
 @RestController
 @RequestMapping("/reactive/transformer")
+@Slf4j
 public class TransformerReactiveController
 {
     @Autowired
@@ -32,13 +34,13 @@ public class TransformerReactiveController
     @GetMapping(value = "/{id}/spy", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> spyById(@PathVariable String id)
     {
-        System.err.println("--> ReactiveController # Spy transformer by id handled, id: " + id);
+        log.warn("Spy transformer by id handled, id: {}", id);
 
         Mono<Transformer> transformerMono = byId(id);
 
         return Flux
                 .<String>generate(sink -> sink.next("{\"time\":\""+ LocalTime.now() + "\", " + transformerMono.block().doSomething()))
-                .delayElements(Duration.ofSeconds(1));
+                .delayElements(Duration.ofSeconds(5));
     }
 
 }
