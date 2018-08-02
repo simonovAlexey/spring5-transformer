@@ -8,7 +8,7 @@
 <h3>This page TEXT EVENT STREAM -> transformer actions:</h3>
 <div style="display: inline-block">
 <textarea style="background-color: white; border: none; font-size:1.0em; resize:none;"
-          id="textarea" rows="15" cols="110">---Stream1---
+          id="textarea" rows="15" cols="80">---Stream1---
 </textarea>
 <div>
     <ul id="messages"></ul>
@@ -16,7 +16,7 @@
 </div>
 <div style="display: inline-block">
 <textarea style="background-color: white; border: none; font-size:1.0em; resize:none;"
-        id="textarea2" rows="15" cols="110">---Stream2---
+        id="textarea2" rows="15" cols="80">---Stream2---
 </textarea>
     <div>
         <ul id="messages2"></ul>
@@ -24,8 +24,8 @@
 </div>
 <script type="application/javascript">
     if (window.EventSource) {
-        var eventSource1 = new EventSource("/reactive/transformer/1/spy");
-        var eventSource2 = new EventSource("/reactive/transformer/sse/infinite");
+        var eventSource1 = new EventSource("/reactive/transformer/sse/1");
+        var eventSource2 = new EventSource("/reactive/transformer/sse/emitterProcessor");
         var elements1 = document.getElementById("messages");
         var elements2 = document.getElementById("messages2");
         var textarea1 = document.getElementById("textarea");

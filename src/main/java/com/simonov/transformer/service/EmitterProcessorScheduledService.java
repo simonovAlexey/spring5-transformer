@@ -9,28 +9,32 @@ import reactor.core.publisher.EmitterProcessor;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
-public class ScheduledService {
+public class EmitterProcessorScheduledService {
 
     private final EmitterProcessor<ServerSentEvent<Message>> emitter;
+    private static AtomicLong SHEDULED_SSE_IDS = new AtomicLong(1);
 
-    public ScheduledService() {
+    public EmitterProcessorScheduledService() {
         emitter = EmitterProcessor.create();
     }
 
     public Flux<ServerSentEvent<Message>> getInfiniteMessages() {
-        return emitter.log();
+//        Flux<ServerSentEvent<Message>> log = emitter.log();
+        Flux<ServerSentEvent<Message>> share = emitter.share();
+        return share;
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 1500L)
     void timerHandler() {
         try {
             emitter.onNext(
                     ServerSentEvent.builder(
-                            new Message(LocalDateTime.now(),TransformerGenerator.getRandomAction())
-                    ).build()
-            );
+                            new Message(LocalDateTime.now(), TransformerGenerator.getRandomAction())).
+                            id(String.valueOf(SHEDULED_SSE_IDS.getAndIncrement())).
+                            build());
         } catch (Exception e) {
             emitter.onError(e);
         }

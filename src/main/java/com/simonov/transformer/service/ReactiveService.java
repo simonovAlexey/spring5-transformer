@@ -4,6 +4,7 @@ import com.simonov.TransformerGenerator;
 import com.simonov.transformer.data.Message;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
@@ -32,10 +33,11 @@ public class ReactiveService {
     }
 
     private Flux<Message> processOneAsync(ExecutorService executorService) {
+        Scheduler scheduler = Schedulers.fromExecutor(executorService);
         return Flux.<Message>create(s -> {
             s.next(processOne());
             s.complete();
-        }).subscribeOn(Schedulers.fromExecutor(executorService));
+        }).subscribeOn(scheduler);
     }
 
 

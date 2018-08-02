@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import reactor.core.publisher.Mono;
 
@@ -24,6 +25,7 @@ import reactor.core.publisher.Mono;
 @SpringBootApplication
 @EnableWebFlux
 @ComponentScan(basePackages = "com.simonov.transformer")
+@EnableScheduling
 public class Application
 {
 

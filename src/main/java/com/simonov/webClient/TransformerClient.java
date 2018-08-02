@@ -18,10 +18,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootApplication
 public class TransformerClient
 {
-    public static void main(String[] args)
-    {
-        SpringApplication.run(TransformerClient.class, args);
-    }
+//    public static void main(String[] args)
+//    {
+//        SpringApplication.run(TransformerClient.class, args);
+//    }
 
     @Bean
     WebClient webClient() {
